@@ -20,21 +20,7 @@ def fail_after(version: str) -> typing.Callable:
 
     Args:
         version (str): The version to check against"""
-
-    def decorator_wrapper(func):
-        @functools.wraps(func)
-        def test_inner(*args, **kwargs):
-            if [int(x) for x in version.split(".")] <= [int(x) for x in __version__.split(".")]:
-                msg = (
-                    f"The function {func.__name__} must be fully removed as it is deprecated"
-                    f" and must be removed by version {version}"
-                )
-                raise AssertionError(msg)
-            return func(*args, **kwargs)
-
-        return test_inner
-
-    return decorator_wrapper
+    pass
 
 
 def deprecated(message: str = "") -> typing.Callable:
@@ -44,24 +30,7 @@ def deprecated(message: str = "") -> typing.Callable:
     Args:
         message (str): The message to display if the function is deprecated
     """
-
-    def decorator_wrapper(func):
-        @functools.wraps(func)
-        def function_wrapper(*args, **kwargs):
-            func_name = func.__name__
-            if func_name not in function_wrapper.deprecated_items:
-                msg = f"Function {func.__name__} is now deprecated! {message}"
-                warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
-                function_wrapper.deprecated_items.add(func_name)
-
-            return func(*args, **kwargs)
-
-        # set this up the first time the decorator is called
-        function_wrapper.deprecated_items = set()
-
-        return function_wrapper
-
-    return decorator_wrapper
+    pass
 
 
 def ensure_unicode(value: KeyT, encoding: str = "utf-8") -> str:
@@ -74,11 +43,7 @@ def ensure_unicode(value: KeyT, encoding: str = "utf-8") -> str:
     Returns:
         str: The encoded string
     """
-    if isinstance(value, bytes):
-        return value.decode(encoding)
-    elif isinstance(value, list):
-        raise TypeError(f"The provided value {value} is not of type str or bytes")
-    return value
+    pass
 
 
 @contextlib.contextmanager
@@ -92,8 +57,7 @@ def __gzip_read(filename: PathOrStr, mode: str = "rb", encoding: str = "UTF-8") 
     Yields:
         str: The string data from the gzip file read
     """
-    with gzip.open(filename, mode=mode, encoding=encoding) as fobj:
-        yield fobj.read()
+    pass
 
 
 @contextlib.contextmanager
@@ -107,15 +71,7 @@ def load_file(filename: PathOrStr, encoding: str) -> typing.Generator[KeyT, None
     Yields:
         str: The string data from the file read
     """
-    if isinstance(filename, Path):
-        filename = str(filename)
-
-    if filename[-3:].lower() == ".gz":
-        with __gzip_read(filename, mode="rt", encoding=encoding) as data:
-            yield data
-    else:
-        with open(filename, encoding=encoding) as fobj:
-            yield fobj.read()
+    pass
 
 
 def write_file(filepath: PathOrStr, encoding: str, gzipped: bool, data: str) -> None:
@@ -128,12 +84,7 @@ def write_file(filepath: PathOrStr, encoding: str, gzipped: bool, data: str) -> 
         gzipped (bool): Whether the file should be gzipped or not
         data (str): The data to be written out
     """
-    if gzipped:
-        with gzip.open(filepath, "wt") as fobj:
-            fobj.write(data)
-    else:
-        with open(filepath, "w", encoding=encoding) as fobj:
-            fobj.write(data)
+    pass
 
 
 def _parse_into_words(text: str) -> typing.Iterable[str]:
@@ -143,5 +94,4 @@ def _parse_into_words(text: str) -> typing.Iterable[str]:
     Args:
         text (str): The text to split into words
     """
-    # see: https://stackoverflow.com/a/12705513
-    return re.findall(r"(\w[\w']*\w|\w)", text)
+    pass
